@@ -25,4 +25,5 @@ as an example, changing the key combo to Shift+X would be:
 
 Or assign it to one of the side mouse buttons like this:  
 XButton1::  
+or
 XButton2::  
