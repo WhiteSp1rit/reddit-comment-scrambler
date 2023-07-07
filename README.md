@@ -34,8 +34,8 @@ XButton2::
 
 ## Limitations
 
-Reddit only allows loading the last 1000 comments.
-In order to view older comments, newer ones must be deleted.
-I'll add the delete function later. 
-Deleting large numbers of comments fast, or without scrambling them first is not recommended, 
-as Reddit can both restore deleted comments and suspend your account for suspicious behaviour. 
+Reddit only allows loading the last 1000 comments.  
+In order to view older comments, newer ones must be deleted.  
+I'll add the delete function later.   
+Deleting large numbers of comments fast, or without scrambling them first is not recommended,   
+as Reddit can both restore deleted comments and suspend your account for suspicious behaviour.   
