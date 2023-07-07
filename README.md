@@ -8,7 +8,7 @@ Fully automatic, requires no user interaction after launch.
 
 ## Required RES settings
 Appearance -> Night Mode -> on, Night Mode On -> on, Automatic Night Mode -> Disabled  
-Browsing -> Never Ending Reddit -> on, Auto Load -> on 
+Browsing -> Never Ending Reddit -> on, Auto Load -> on, Pause After Every -> 0 
 
 ## How to use
 1) if its your first time using the script, check the 'rcs-config.ini' file parameters, and change them if necessary.
