@@ -6,99 +6,82 @@ SendMode "Input"
 CoordMode "Mouse", "Client"
 CoordMode "Pixel", "Client"
 
-; user config
-ahk_exe := "ahk_exe firefox.exe"
-scroll_height := 65
-content_area_start_y := 88
-content_area_start_x := 375
-color_background := 0x262626
-color_selected := 0x373737
+config_file := ".\rcs-config.ini"
+config_section := "user_config"
 
-
-#HotIf WinActive(ahk_exe)
-#v:: {
-	WinActivate ahk_exe
-    WinGetClientPos &client_x, &client_y, &client_width, &client_height, ahk_exe
-	
-	;PixelSearch(&Px, &Py, content_area_start_x+300, content_area_start_y+10, client_width-200, client_height, color_selected)
-	PixelSearch(&Px, &Py, client_width-100, client_height, content_area_start_x+300, content_area_start_y+10, color_selected)
-	;MsgBox "coords: " Px " ," Py
-	
-	MouseMove(Px,Py,30)
-	
-	scroll_num := Ceil((Py-content_area_start_y-10) / scroll_height)
-	
-	;MsgBox "need to scroll " scroll_num " times"
-	Send "{Down " . scroll_num . "}"
-}
+browser_exe := IniRead(config_file, config_section, "browser_exe")
+scroll_height := IniRead(config_file, config_section, "scroll_height")
+content_area_start_y := IniRead(config_file, config_section, "content_area_start_y")
+content_area_start_x := IniRead(config_file, config_section, "content_area_start_x")
+color_selected := IniRead(config_file, config_section, "color_selected")
+num_comments := IniRead(config_file, config_section, "num_comments")
+ahk_exe := "ahk_exe " . browser_exe
 
 #HotIf WinActive(ahk_exe)
 #c:: {
     WinActivate ahk_exe
     WinGetClientPos &client_x, &client_y, &client_width, &client_height, ahk_exe
 
-	Loop(100){
+	Loop(num_comments){
 
-	Sleep 800
-    search_res := ImageSearch(&edit_x, &edit_y, 0, 0, client_width, client_height, ".\edit.png")
-	
-	if (!search_res) {
-		MsgBox "can't find the 'Edit' button, stopping the script"	
-		exitapp	
-	}
-	
-	Click edit_x+20, edit_y+10
-    Sleep 500
-    
-	SendInput "{LCtrl down}a{LCtrl up}"
-	Sleep 80
-    
-	SendInput "{LCtrl down}c{LCtrl up}"
-	Sleep 80
-	
-	new_text := ""
-	old_text := A_Clipboard
+		Sleep 300
+		search_res := ImageSearch(&edit_x, &edit_y, 0, 0, client_width, client_height, ".\img\edit.png")
+		
+		if (!search_res) {
+			MsgBox "can't find the 'edit' link, stopping the script"	
+			exitapp	
+		}
+		
+		Click edit_x+20, edit_y+10
+		Sleep 500
+		
+		SendInput "{LCtrl down}a{LCtrl up}"
+		Sleep 80
+		
+		SendInput "{LCtrl down}c{LCtrl up}"
+		Sleep 80
+		
+		new_text := ""
+		old_text := A_Clipboard
 
-	Loop Parse, old_text
-	{
-		char := A_LoopField
-		if (IsDigit(char))
-			new_text .= Chr(Random(48, 57))
-		else if (IsLower(char))
-			new_text .= Chr(Random(97, 122))
-		else if (IsUpper(char))
-			new_text .= Chr(Random(65, 90))
-		else
-			new_text .= char
-	}
+		Loop Parse, old_text
+		{
+			char := A_LoopField
+			if (IsDigit(char))
+				new_text .= Chr(Random(48, 57))
+			else if (IsLower(char))
+				new_text .= Chr(Random(97, 122))
+			else if (IsUpper(char))
+				new_text .= Chr(Random(65, 90))
+			else
+				new_text .= char
+		}
 
-	A_Clipboard := new_text
-	Sleep 70
-    
-	SendInput "{LCtrl down}v{LCtrl up}"
-    Sleep 250
-    
-    search_res := ImageSearch(&FoundX, &FoundY, 0, 0, client_width, client_height, ".\save.png")
-    
-	if (!search_res) {
-		MsgBox "can't find the 'Save' button, stopping the script"	
-		exitapp	
-	}
-	
-	Sleep 200
-	Click FoundX+20, FoundY+10
-	
-	;MsgBox "need to scroll " scroll_num " times"
-	Sleep 800
-	
-	PixelSearch(&selected_x, &selected_y, client_width-100, client_height, content_area_start_x+300, content_area_start_y+10, color_selected)
+		A_Clipboard := new_text
+		Sleep 70
+		
+		SendInput "{LCtrl down}v{LCtrl up}"
+		Sleep 250
+		
+		search_res := ImageSearch(&FoundX, &FoundY, 0, 0, client_width, client_height, ".\img\save.png")
+		
+		if (!search_res) {
+			MsgBox "can't find the 'save' link, stopping the script"	
+			exitapp	
+		}
+		
+		Sleep 350
+		Click FoundX+20, FoundY+10
 
-	scroll_num := Ceil((selected_y-content_area_start_y-10) / scroll_height)
-	
-	;MsgBox "need to scroll " scroll_num " times"
-	Send "{Down " . scroll_num . "}"
+		Sleep 1100
+		
+		PixelSearch(&selected_x, &selected_y, client_width-150, client_height-100, content_area_start_x+225, content_area_start_y+10, color_selected)
+
+		scroll_num := Ceil((selected_y-content_area_start_y-10) / scroll_height)
+		
+		Send "{Down " . scroll_num . "}"
+		Sleep 400
 	}
-	Sleep 1400
 }
 
 esc:: {
