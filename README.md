@@ -2,6 +2,8 @@
 A simple script to randomise the contents of your comments and turn them into text noise.  
 Fully automatic, requires no user interaction after launch.
 
+[preview.webm](https://github.com/WhiteSp1rit/reddit-comment-scrambler/assets/7308007/7ec5c20a-fbc9-45d8-b586-aec547139be2)
+
 ## Requirements
 * [AutoHotkey (AHK) v2](https://www.autohotkey.com/)  
 * [Reddit Enhancement Suite (RES)](https://redditenhancementsuite.com/) browser extension
